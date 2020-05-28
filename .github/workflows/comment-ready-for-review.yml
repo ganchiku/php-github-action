@@ -1,0 +1,19 @@
+name: pull request CI
+
+on:
+  pull_request:
+    types: [ready_for_review, edited]
+
+jobs:
+  comment:
+    name: Comment ready for review
+    runs-on: ubuntu-18.04
+    if: (contains(github.event.pull_request.title, 'wip') == false && github.event.pull_request.draft == false) && (github.event.action != 'edited' || (github.event.action == 'edited' && contains(github.event.changes.title.from, 'wip') == true))
+    steps:
+      - name: Run GitHub API
+        run: |
+          curl -X POST \
+               -H "Content-Type: application/json" \
+               -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+               -d "{ \"body\": \"Ready for review :rocket:\" }" \
+               https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments
