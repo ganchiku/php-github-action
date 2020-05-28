@@ -11,10 +11,10 @@ if (!hasChangelog && !isTrivial) {
 }
 
 
-var bigPRThreshold = 600;
+var bigPRThreshold = 50;
 if (pr.additions + pr.deletions > bigPRThreshold) {
-  warn(':exclamation: Big PR (' + ++errorCount + ')');
-  markdown('> (' + errorCount + ') : Pull Request size seems relatively large. If Pull Request contains multiple changes, split each into separate PR will helps faster, easier review.');
+  warn(':exclamation: Big PR');
+  markdown('> Pull Request size seems relatively large. If Pull Request contains multiple changes, split each into separate PR will helps faster, easier review.');
 }
 
 // Always ensure we assign someone, so that our Slackbot can do its work correctly
